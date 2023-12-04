@@ -16,7 +16,6 @@
 
 package com.example.inventory.data
 
-import com.example.inventory.ui.item.SearchDetails
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -32,7 +31,7 @@ interface ItemsRepository {
      * Retrieve an item from the given data source that matches with the [id].
      */
     fun getItemStream(id: Int): Flow<Item?>
-    fun searchItems(query: String): Flow<List<SearchDetails>>
+    fun searchItems(query: String): Flow<List<Item>>
 
     /**
      * Insert item in the data source
@@ -49,3 +48,4 @@ interface ItemsRepository {
      */
     suspend fun updateItem(item: Item)
 }
+
