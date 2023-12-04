@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.example.inventory
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
