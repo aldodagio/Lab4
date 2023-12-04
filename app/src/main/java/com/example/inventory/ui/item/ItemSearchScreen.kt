@@ -1,7 +1,5 @@
 package com.example.inventory.ui.item
 
-import ItemSearchViewModel
-import SearchUiState
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.inventory.InventoryTopAppBar
 import com.example.inventory.R
-import com.example.inventory.data.Item
 import com.example.inventory.ui.AppViewModelProvider
 import com.example.inventory.ui.navigation.NavigationDestination
 import com.example.inventory.ui.theme.InventoryTheme
@@ -56,6 +53,8 @@ fun ItemSearchScreen(
         viewModel.searchItems("initial_query")
     }
 
+    val searchResultsState by viewModel.searchUiState.collectAsState()
+
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -66,7 +65,7 @@ fun ItemSearchScreen(
         }
     ) { innerPadding ->
         ItemSearchBody(
-            searchUiState = viewModel.searchUiState,
+            searchUiState = searchResultsState,
             onSearchQueryChange = { query ->
                 coroutineScope.launch {
                     // Simulating network delay
@@ -81,6 +80,7 @@ fun ItemSearchScreen(
         )
     }
 }
+
 
 
 fun ItemSearchBody(searchUiState: SearchUiState, onSearchQueryChange: (String) -> Unit, modifier: Unit) {
@@ -142,7 +142,7 @@ fun ItemSearchBody(
     }
 }
 
-private fun Any.isNotEmpty(): Boolean {
+fun Any.isNotEmpty(): Boolean {
 
     return TODO("Provide the return value")
 }
@@ -161,10 +161,8 @@ private fun ItemSearchScreenPreview() {
     InventoryTheme {
         ItemSearchBody(
             searchUiState = SearchUiState(
-                searchResults = listOf(
-                    Item(1, "Item 1", 10.0, 5),
-                    Item(2, "Item 2", 20.0, 8)
-                )
+                searchResults = SearchDetails(1, "Item 1", "10.0", "5"),
+
             ),
             onSearchQueryChange = {}
         )
